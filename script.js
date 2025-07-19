@@ -21,7 +21,7 @@ function addItem (e) {
   //Creat button
   const button = document.createElement('button')
   button.className = "remove-item btn-link text-red"
-
+  
   //Create li
   const listEle = document.createElement('li')
 
