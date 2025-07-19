@@ -1,7 +1,7 @@
 const itemForm = document.getElementById('item-form')
 const itemInput = document.getElementById('item-input')
 const itemList = document.getElementById('item-list')
-
+const clearBtn = document.getElementById('clear')
 
 function addItem (e) {
   e.preventDefault()
@@ -34,4 +34,18 @@ function addItem (e) {
   itemInput.value = ''
 }
 
+
+function removeItem (e) {
+  if (e.target.tagName === 'I') {
+    e.target.parentElement.parentElement.remove()
+  }
+}
+
+
+function clearAll () {
+  itemList.innerHTML = ''
+}
+
+clearBtn.addEventListener('click', clearAll)
+itemList.addEventListener('click', removeItem)
 itemForm.addEventListener('submit', addItem)
