@@ -14,6 +14,7 @@ function onAddItemSubmit (e) {
     alert('Please add an item')
     return
   }
+  
   //Check edit mode
   if (editMode) {
     const itemToEdit = itemList.querySelector('.edit-mode')
@@ -21,9 +22,15 @@ function onAddItemSubmit (e) {
     itemToEdit.classList.remove('edit-mode')
     itemToEdit.remove()
     addEditBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item'
+    addEditBtn.style.backgroundColor = '#333'
     editMode = false
-  }
+  } else if (checkForItem(itemInput.value)) { //Check if item exits
+    
+    alert('Item already in list')
+    return
 
+  }
+  
   // Create DOM element
   addItemToDOM(itemInput.value)
 
@@ -93,10 +100,16 @@ function onClickItem (e) {
   }
 }
 
+function checkForItem (item) {
+  const itemsFromStorage = getItemsFromStorage()
+  return itemsFromStorage.includes(item)
+}
+
 function setItemToEdit (item) {
   editMode = true
   itemList.querySelectorAll('li').forEach(item => item.classList.remove('edit-mode'))
   item.classList.add('edit-mode')
+  addEditBtn.style.backgroundColor = 'green'
   addEditBtn.innerHTML = '<i class= "fa-solid fa-pen"></i> Edit Item'
   itemInput.value = item.textContent
 }
