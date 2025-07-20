@@ -3,6 +3,8 @@ const itemInput = document.getElementById('item-input')
 const itemList = document.getElementById('item-list')
 const clearBtn = document.getElementById('clear')
 const filterIcon = document.getElementById('filter')
+const addEditBtn = itemForm.querySelector('button')
+let editMode = false
 
 function onAddItemSubmit (e) {
   e.preventDefault()
@@ -11,6 +13,15 @@ function onAddItemSubmit (e) {
   if (itemInput.value === '') {
     alert('Please add an item')
     return
+  }
+  //Check edit mode
+  if (editMode) {
+    const itemToEdit = itemList.querySelector('.edit-mode')
+    removeItemFromStorage(itemToEdit.firstChild.textContent)
+    itemToEdit.classList.remove('edit-mode')
+    itemToEdit.remove()
+    addEditBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Item'
+    editMode = false
   }
 
   // Create DOM element
@@ -77,7 +88,17 @@ function displayItems () {
 function onClickItem (e) {
   if (e.target.tagName === 'I') {
     removeItem(e.target.parentElement.parentElement)
+  } else if (e.target.tagName === 'LI') {
+    setItemToEdit(e.target)
   }
+}
+
+function setItemToEdit (item) {
+  editMode = true
+  itemList.querySelectorAll('li').forEach(item => item.classList.remove('edit-mode'))
+  item.classList.add('edit-mode')
+  addEditBtn.innerHTML = '<i class= "fa-solid fa-pen"></i> Edit Item'
+  itemInput.value = item.textContent
 }
 
 function removeItem (item) {
